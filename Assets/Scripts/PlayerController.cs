@@ -57,6 +57,9 @@ public class PlayerController : MonoBehaviour
         {
             // Display the win text.
             winTextObject.SetActive(true);
+
+            // Destroy the enemy GameObject.
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         }
     }
 
@@ -68,6 +71,19 @@ public class PlayerController : MonoBehaviour
 
         // Apply force to the Rigidbody to move the player.
         rb.AddForce(movement * speed); 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Destroy the current object
+            Destroy(gameObject); 
+            
+            // Update the winText to display "You Lose!"
+            winTextObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        }
     }
 
     void OnTriggerEnter(Collider other) 
